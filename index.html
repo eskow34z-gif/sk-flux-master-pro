@@ -6,7 +6,7 @@
   <title>SK FLUX MASTER</title>
   <style>
     :root{
-      --bg:#04050a;
+      --bg:#05070d;
       --card:rgba(255,255,255,.04);
       --line:rgba(255,255,255,.12);
       --blue:#3b82f6;
@@ -14,33 +14,36 @@
       --ok:#00e87a;
       --warn:#ff9500;
       --bad:#ff3b30;
+      --txt:#eef2ff;
+      --muted:#97a3c0;
     }
-    *{box-sizing:border-box}
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; }
     body{
-      margin:0;
-      font-family:Inter,Segoe UI,Arial,sans-serif;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
       background:var(--bg);
-      color:#fff;
+      color:var(--txt);
+      min-height:100vh;
       overflow-x:hidden;
     }
 
-    /* Animated OLED background */
     .bg-wrap{position:fixed; inset:0; z-index:-2; overflow:hidden;}
     .blob{
-      position:absolute; width:46vw; height:46vw; border-radius:50%;
-      filter:blur(60px); opacity:.22; mix-blend-mode:screen;
-      animation:float 18s ease-in-out infinite;
+      position:absolute; width:48vw; height:48vw; border-radius:50%;
+      filter:blur(70px); opacity:.22; mix-blend-mode:screen;
+      animation:float 20s ease-in-out infinite;
     }
-    .b1{background:#2563eb; top:-10%; left:-8%;}
-    .b2{background:#4f46e5; right:-10%; top:20%; animation-duration:22s;}
-    .b3{background:#0ea5e9; bottom:-15%; left:30%; animation-duration:20s;}
+    .b1{background:#2563eb; left:-10%; top:-15%;}
+    .b2{background:#4f46e5; right:-15%; top:20%; animation-duration:24s;}
+    .b3{background:#06b6d4; left:30%; bottom:-20%; animation-duration:22s;}
     @keyframes float{
       0%,100%{transform:translate(0,0) scale(1);}
-      50%{transform:translate(30px,-30px) scale(1.08);}
+      50%{transform:translate(30px,-25px) scale(1.08);}
     }
+
     .grid-floor{
       position:absolute; left:0; right:0; bottom:-10vh; height:55vh;
-      transform:perspective(1000px) rotateX(60deg);
+      transform:perspective(1100px) rotateX(60deg);
       background-image:
         linear-gradient(rgba(59,130,246,.12) 1px, transparent 1px),
         linear-gradient(90deg, rgba(59,130,246,.12) 1px, transparent 1px);
@@ -53,137 +56,233 @@
       to{background-position:0 36px}
     }
 
-    .container{max-width:1220px; margin:0 auto; padding:18px;}
+    .container{max-width:1240px; margin:0 auto; padding:16px;}
     .glass{
       background:var(--card);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
       backdrop-filter:blur(10px);
       border-radius:16px;
     }
 
     .topbar{
       position:sticky; top:0; z-index:50;
-      backdrop-filter:blur(14px) saturate(160%);
-      background:rgba(3,4,10,.7);
+      background:rgba(4,7,14,.7);
       border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(14px) saturate(160%);
     }
-    .topbar-inner{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 18px;}
+    .topbar-inner{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:12px; padding:12px 16px; max-width:1240px; margin:0 auto;
+    }
 
-    /* Logo */
     .logo-wrap{position:relative; display:inline-block; perspective:1000px;}
     .logo{
-      font-weight:900; font-style:italic; letter-spacing:.5px;
       font-size:clamp(24px,4vw,46px);
-      transform:rotateX(0deg) translateZ(0);
+      font-weight:900; font-style:italic; letter-spacing:.3px;
+      line-height:1.05;
       text-shadow:
-        0 1px 0 rgba(255,255,255,.25),
-        0 2px 0 rgba(37,99,235,.35),
+        0 1px 0 rgba(255,255,255,.24),
+        0 2px 0 rgba(37,99,235,.32),
         0 8px 18px rgba(0,0,0,.55),
-        0 0 34px rgba(59,130,246,.45);
+        0 0 32px rgba(59,130,246,.42);
       animation:logoEnter .8s cubic-bezier(.2,.8,.2,1);
       position:relative;
+      display:inline-block;
       overflow:hidden;
       white-space:nowrap;
     }
     .logo .sk{color:#fff;}
     .logo .flux{
-      background:linear-gradient(135deg,#2563eb 0%,#22d3ee 40%,#3b82f6 70%,#1e40af 100%);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      background:linear-gradient(135deg,#2563eb 0%, #22d3ee 42%, #3b82f6 70%, #1d4ed8 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
     }
     .logo::after{
       content:"";
       position:absolute; inset:0;
       transform:translateX(-140%);
-      background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.58) 50%,transparent 65%);
+      background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);
       animation:shimmer 3.2s ease-in-out infinite;
-      pointer-events:none;
       mix-blend-mode:screen;
+      pointer-events:none;
     }
     @keyframes shimmer{
-      0%,20%{transform:translateX(-140%);}
-      80%,100%{transform:translateX(140%);}
+      0%,20%{transform:translateX(-140%)}
+      60%,100%{transform:translateX(160%)}
+    }
+    @keyframes logoEnter{
+      from{opacity:0; transform:translateY(40px) rotateX(-45deg); filter:blur(14px);}
+      to{opacity:1; transform:translateY(0) rotateX(0); filter:blur(0);}
     }
 
-    @keyframes logoEnter{
-      from{opacity:0; transform:translateY(-22px) rotateX(20deg);}
-      to{opacity:1; transform:translateY(0) rotateX(0);}
+    .keywords{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+    .chip{
+      padding:6px 10px; border-radius:999px;
+      font-size:11px; font-weight:800; letter-spacing:.3px;
+      color:#c6d4ff;
+      border:1px solid rgba(99,102,241,.45);
+      background:rgba(99,102,241,.16);
     }
+
+    .actions{display:flex; gap:8px; flex-wrap:wrap;}
+    .btn{
+      border:none; cursor:pointer;
+      padding:10px 14px; border-radius:999px;
+      font-size:12px; font-weight:800; letter-spacing:.3px;
+      color:#fff;
+      transition:.2s transform, .2s opacity;
+    }
+    .btn:active{transform:scale(.96);}
+    .btn.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);}
+    .btn.ghost{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);}
+    .btn.ok{background:rgba(0,232,122,.15); border:1px solid rgba(0,232,122,.35); color:#8ff5c1;}
 
     .hero{
-      display:grid; gap:24px; align-items:center; min-height:74vh;
-      padding:64px 0 48px;
+      position:relative; margin-top:12px; height:300px;
+      border-radius:18px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.1);
     }
-    .hero-inner{display:grid; gap:28px; grid-template-columns:1.2fr .9fr; align-items:start;}
-    .hero-copy{max-width:620px;}
-    .hero-copy h1{
-      margin:0 0 18px;
-      font-size:clamp(2.5rem,5vw,4.8rem);
-      line-height:1.02;
-      letter-spacing:-.04em;
+    .hero img{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+      opacity:0; transform:scale(1.08);
+      transition:opacity .8s ease, transform 6s linear;
     }
-    .hero-copy p{
-      margin:0; color:rgba(255,255,255,.8); font-size:1.05rem; line-height:1.8;
+    .hero img.active{opacity:1; transform:scale(1.02);}
+    .hero-overlay{
+      position:absolute; inset:0;
+      background:linear-gradient(to bottom,rgba(0,0,0,.48),rgba(0,0,0,.24),rgba(0,0,0,.8));
     }
-    .hero-actions{display:flex; flex-wrap:wrap; gap:14px; margin-top:30px;}
-    .button{
-      display:inline-flex; align-items:center; justify-content:center;
-      min-height:52px; padding:0 22px; border-radius:999px;
-      font-weight:700; text-decoration:none; transition:transform .2s ease, background .2s ease;
+    .hero-caption{
+      position:absolute; left:18px; bottom:16px; z-index:2;
+      font-size:clamp(18px,3vw,34px); font-weight:900;
     }
-    .button-primary{background:linear-gradient(135deg,#2563eb,#22d3ee); color:#fff;}
-    .button-secondary{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.12);}
-    .button:hover{transform:translateY(-2px);}
+    .dots{display:flex; gap:6px; margin-top:8px;}
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      border:none; cursor:pointer; background:rgba(255,255,255,.45);
+    }
+    .dot.active{width:28px; background:#4f46e5;}
 
-    .hero-panel{
-      position:relative; border:1px solid rgba(255,255,255,.08);
-      border-radius:28px; overflow:hidden; background:rgba(10,14,27,.9);
-      padding:28px;
-      box-shadow:0 40px 120px rgba(0,0,0,.25);
+    .kpis{
+      margin-top:14px;
+      display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
     }
-    .hero-panel h2{margin:0 0 14px; font-size:1.3rem;}
-    .hero-panel p{margin:0 0 24px; color:rgba(255,255,255,.75); line-height:1.7;}
-    .feature-list{display:grid; gap:14px;}
-    .feature{display:flex; gap:14px; align-items:flex-start; padding:14px 16px; border-radius:18px; background:rgba(255,255,255,.03);}
-    .feature-dot{width:12px; height:12px; border-radius:50%; margin-top:6px; background:#22d3ee; flex-shrink:0;}
-    .feature strong{display:block; margin-bottom:6px; color:#fff;}
+    .kpi{
+      padding:14px; cursor:pointer;
+      transition:.2s transform, .2s border-color;
+    }
+    .kpi:hover{transform:translateY(-2px); border-color:rgba(99,102,241,.6);}
+    .kpi .label{font-size:11px; color:var(--muted); font-weight:700;}
+    .kpi .value{font-size:24px; font-weight:900; margin-top:6px;}
+    .kpi small{font-size:11px; color:#7482a4;}
 
-    .stats{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:16px; margin-top:32px;
+    .filters{
+      margin-top:14px; padding:12px;
+      display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px;
     }
-    .stat{
-      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
-      border-radius:20px; padding:18px;
+    .filters input, .filters select{
+      width:100%; padding:10px;
+      background:rgba(0,0,0,.35); color:#eef2ff;
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:10px; font-size:12px;
     }
-    .stat strong{display:block; font-size:1.55rem; margin-bottom:6px;}
-    .stat span{color:rgba(255,255,255,.65); font-size:.95rem;}
 
-    .section{
-      padding:64px 0;
+    .cards{
+      margin-top:12px;
+      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px;
     }
-    .section-header{
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      flex-wrap:wrap;
-    }
-    .section-header h2{margin:0; font-size:2rem;}
-    .cards{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
     .card{
-      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
-      border-radius:20px; padding:24px;
+      padding:10px;
+      transition:.2s transform, .2s border-color;
     }
-    .card h3{margin-top:0; margin-bottom:12px; font-size:1.15rem;}
-    .card p{margin:0; color:rgba(255,255,255,.75); line-height:1.7;}
+    .card:hover{transform:translateY(-3px); border-color:rgba(99,102,241,.55);}
+    .thumb{height:130px; border-radius:12px; overflow:hidden; position:relative;}
+    .thumb img{width:100%; height:100%; object-fit:cover;}
+    .badge{
+      position:absolute; left:8px; top:8px;
+      padding:5px 8px; border-radius:999px;
+      font-size:10px; font-weight:900;
+      background:rgba(0,0,0,.42);
+      border:1px solid rgba(255,255,255,.2);
+    }
+    .heat{
+      position:absolute; right:8px; top:8px;
+      padding:5px 8px; border-radius:999px;
+      font-size:10px; font-weight:900;
+      animation:pulse 1.3s ease-in-out infinite;
+    }
+    .hot{color:#ffb9b5; background:rgba(255,59,48,.16); border:1px solid #ff3b30; box-shadow:0 0 16px rgba(255,59,48,.5);}
+    .fresh{color:#a8f0ff; background:rgba(0,212,255,.15); border:1px solid #00d4ff; box-shadow:0 0 12px rgba(0,212,255,.45);}
+    .cold{color:#cad9ff; background:rgba(96,165,250,.13); border:1px solid #60a5fa; box-shadow:0 0 10px rgba(96,165,250,.36);}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 
-    .footer{
-      padding:24px 0 40px;
-      color:rgba(255,255,255,.6);
-      text-align:center;
-      font-size:.95rem;
+    .card h3{margin:10px 0 4px; font-size:15px;}
+    .meta{font-size:12px; color:#a7b3cf;}
+    .row{display:flex; justify-content:space-between; align-items:center; margin-top:8px;}
+    .score{font-weight:900;}
+    .green{color:var(--ok);} .orange{color:var(--warn);} .red{color:var(--bad);}
+
+    .card-actions{display:flex; gap:8px; margin-top:10px;}
+    .mini-btn{
+      flex:1;
+      border:none; cursor:pointer;
+      border-radius:10px; padding:9px 8px;
+      font-size:12px; font-weight:800; color:#fff;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
     }
 
-    @media (max-width:860px){
-      .hero-inner{grid-template-columns:1fr;}
-      .topbar-inner{flex-direction:column; align-items:flex-start;}
-      .hero-panel{padding:22px;}
+    .modal{
+      position:fixed; inset:0; z-index:90;
+      background:rgba(2,4,10,.68);
+      display:none; align-items:center; justify-content:center;
+      padding:16px;
+    }
+    .modal.show{display:flex;}
+    .panel{
+      width:min(700px,100%); max-height:85vh; overflow:auto;
+      background:#090d18; border:1px solid rgba(255,255,255,.16);
+      border-radius:16px; padding:16px;
+    }
+    .close{
+      float:right; border:none; background:transparent;
+      color:#c5d0eb; cursor:pointer; font-size:20px;
+    }
+
+    .hud{
+      position:fixed; right:14px; bottom:14px; z-index:70; width:360px;
+      border-radius:14px; overflow:hidden;
+      border:1px solid rgba(0,255,136,.35);
+      background:rgba(2,10,9,.93);
+      box-shadow:0 0 30px rgba(0,255,136,.2);
+    }
+    .hud-head{
+      padding:10px 12px;
+      font-size:12px; font-weight:900; color:#87ffcb;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .hud-body{
+      max-height:180px; overflow:auto;
+      padding:10px; line-height:1.45;
+      font-size:11px;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .hud-line{color:#9de8c0;}
+    .hud-line.warn{color:#ffc367;}
+    .hud-line.err{color:#ff8f87;}
+    .hud-cli{
+      padding:10px; white-space:pre-wrap;
+      border-top:1px solid rgba(255,255,255,.1);
+      color:#78f7de; font-size:10px;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+
+    @media (max-width:980px){
+      .kpis{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .filters{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .cards{grid-template-columns:1fr;}
+      .hud{width:92%; right:4%; left:4%;}
     }
   </style>
 </head>
@@ -196,60 +295,443 @@
   </div>
 
   <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="logo-wrap">
-        <div class="logo"><span class="sk">SK</span> <span class="flux">FLUX</span></div>
+    <div class="topbar-inner">
+      <div>
+        <div class="logo-wrap">
+          <div class="logo"><span class="sk">SK</span> <span class="flux">FLUX MASTER</span></div>
+        </div>
+        <div class="keywords">
+          <span class="chip">Arbitrage Auto</span>
+          <span class="chip">Sniper IA</span>
+          <span class="chip">ROI Tracking</span>
+          <span class="chip">Market Intelligence</span>
+        </div>
       </div>
-      <nav>
-        <a href="#" style="color:rgba(255,255,255,.82); text-decoration:none; margin-right:18px; font-weight:600;">Accueil</a>
-        <a href="#features" style="color:rgba(255,255,255,.68); text-decoration:none; font-weight:600;">Features</a>
-      </nav>
+      <div class="actions">
+        <button class="btn ok" id="loginBtn">Connexion</button>
+        <button class="btn ghost" id="syncBtn">SYNC</button>
+        <button class="btn primary" id="autoBtn">AUTOPILOTE IA</button>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <h1>Maîtrisez votre flux avec style</h1>
-          <p>SK FLUX MASTER est une vitrine moderne conçue pour présenter votre projet avec un rendu visuel immersif, prêt pour une intégration rapide sur le web.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#features">Découvrir</a>
-            <a class="button button-secondary" href="#">Voir le code</a>
-          </div>
-        </div>
-        <div class="hero-panel glass">
-          <h2>Dashboard visuel</h2>
-          <p>Un design néon fluide, un fond animé et des cartes élégantes pour mettre en valeur vos statistiques et vos fonctionnalités.</p>
-          <div class="feature-list">
-            <div class="feature"><span class="feature-dot"></span><div><strong>Animations fluides</strong> Effets modernes et interactions polies.</div></div>
-            <div class="feature"><span class="feature-dot"></span><div><strong>Design responsive</strong> Adapté à tous les écrans et tous les formats.</div></div>
-            <div class="feature"><span class="feature-dot"></span><div><strong>Interface prête</strong> Base propre pour un site marketing ou une landing page.</div></div>
-          </div>
-          <div class="stats">
-            <div class="stat"><strong>24/7</strong><span>Performance always on</span></div>
-            <div class="stat"><strong>3,2x</strong><span>Conversion visuelle</span></div>
-            <div class="stat"><strong>100%</strong><span>Compatible mobile</span></div>
-          </div>
-        </div>
+    <section class="hero glass">
+      <img class="active" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600" alt="">
+      <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1600" alt="">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="">
+      <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1600" alt="">
+      <div class="hero-overlay"></div>
+      <div class="hero-caption">
+        <div id="heroText">Arbitrage Automobile</div>
+        <div class="dots" id="dots"></div>
       </div>
     </section>
 
-    <section id="features" class="section">
-      <div class="section-header">
-        <h2>Fonctionnalités clés</h2>
-        <p style="max-width:560px; color:rgba(255,255,255,.78);">Tout ce dont vous avez besoin pour lancer votre landing page vite, avec un style tech et un design haut de gamme.</p>
-      </div>
-      <div class="cards">
-        <article class="card"><h3>Interface OLED</h3><p>Effets de flou, dégradés et animations pour un rendu premium à l'écran.</p></article>
-        <article class="card"><h3>Section responsive</h3><p>Dispositions flexibles qui s'ajustent selon la taille de l'écran.</p></article>
-        <article class="card"><h3>Code minimal</h3><p>HTML/CSS simple à reprendre, sans dépendances externes.</p></article>
-      </div>
+    <section class="kpis">
+      <article class="kpi glass" data-kpi="annonces">
+        <div class="label">Annonces</div>
+        <div class="value" id="kpiTotal">0</div>
+        <small>Total détecté après filtres</small>
+      </article>
+      <article class="kpi glass" data-kpi="top">
+        <div class="label">Top Score</div>
+        <div class="value" id="kpiTop">0</div>
+        <small>Score IA >= 85</small>
+      </article>
+      <article class="kpi glass" data-kpi="roi">
+        <div class="label">ROI Moyen</div>
+        <div class="value" id="kpiRoi">0%</div>
+        <small>(Profit / Achat) × 100</small>
+      </article>
+      <article class="kpi glass" data-kpi="profit">
+        <div class="label">Profit cumulé</div>
+        <div class="value" id="kpiProfit">0€</div>
+        <small>Somme des profits positifs</small>
+      </article>
     </section>
+
+    <section class="filters glass">
+      <select id="fType">
+        <option value="all">Type: Tout</option>
+        <option value="voiture">Voiture</option>
+        <option value="piece">Pièce</option>
+      </select>
+      <input id="fBrand" placeholder="Marque (Renault, VW...)">
+      <input id="fModel" placeholder="Modèle (Clio, Polo...)">
+      <input id="fCity" placeholder="Ville">
+      <input id="fPriceMax" type="number" placeholder="Prix max">
+      <input id="fScoreMin" type="number" placeholder="Score min">
+    </section>
+
+    <section class="cards" id="cards"></section>
   </main>
 
-  <footer class="footer">
-    © 2026 SK FLUX MASTER — Design épuré et compatible modern web.
-  </footer>
+  <div class="modal" id="kpiModal">
+    <div class="panel">
+      <button class="close" onclick="closeModal('kpiModal')">×</button>
+      <h2 id="kpiTitle">KPI</h2>
+      <p id="kpiBody"></p>
+    </div>
+  </div>
+
+  <div class="modal" id="loginModal">
+    <div class="panel">
+      <button class="close" onclick="closeModal('loginModal')">×</button>
+      <h2>Connexion / Création de compte</h2>
+      <p style="color:#a8b6d6">Mode démo local (single-file).</p>
+      <div style="display:grid; gap:8px; margin-top:10px">
+        <input id="email" placeholder="Email" style="padding:10px;border-radius:10px;border:1px solid #334;background:#0d1221;color:#fff">
+        <input id="pass" type="password" placeholder="Mot de passe" style="padding:10px;border-radius:10px;border:1px solid #334;background:#0d1221;color:#fff">
+        <button class="btn primary" onclick="registerEmail()">Créer compte email</button>
+        <button class="btn ghost" onclick="loginEmail()">Se connecter email</button>
+        <button class="btn ok" onclick="loginGoogleMock()">Google (démo)</button>
+      </div>
+      <p id="authState" style="margin-top:10px;color:#8ec7ff"></p>
+    </div>
+  </div>
+
+  <aside class="hud">
+    <div class="hud-head">Command Center — Sniper IA</div>
+    <div class="hud-body" id="hudBody"></div>
+    <div class="hud-cli">ant beta:agents create \
+--name 'Web Scraper Agent' \
+--model '{"id": "claude-sonnet-4-6"}' \
+--system 'Web scraping agent using Browser Use Cloud. Infer URL, extract data, no inventions.' \
+--tool '{type: agent_toolset_20260401}'</div>
+  </aside>
+
+  <script>
+    const HERO = [
+      { label: "Arbitrage Automobile" },
+      { label: "Analyse de Pièces" },
+      { label: "Marché Logistique" },
+      { label: "Acquisition Terrain" }
+    ];
+
+    const RAW_DATA = [
+      {
+        id:1, type:"voiture", brand:"Renault", model:"Clio 3",
+        title:"Renault Clio 3 Phase 2", price:2400, km:125000, year:2010,
+        city:"Meaux", distanceKm:32, source:"Leboncoin", postedHours:1.1,
+        description:"courroie faite, ct ok, carnet entretien complet",
+        img:"https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=900",
+        sourceUrl:"https://www.leboncoin.fr"
+      },
+      {
+        id:2, type:"voiture", brand:"Peugeot", model:"206+",
+        title:"Peugeot 206+ HDi 1.4", price:1800, km:189000, year:2009,
+        city:"Torcy", distanceKm:18, source:"Facebook", postedHours:26,
+        description:"bruit moteur, voyant allumé, ct refusé pour freins",
+        img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=900",
+        sourceUrl:"https://www.facebook.com/marketplace"
+      },
+      {
+        id:3, type:"voiture", brand:"VW", model:"Polo",
+        title:"VW Polo 1.4 Confort", price:4200, km:98000, year:2013,
+        city:"Croissy", distanceKm:55, source:"La Centrale", postedHours:0.4,
+        description:"révisé concession, factures dispo, très bel état",
+        img:"https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=900",
+        sourceUrl:"https://www.lacentrale.fr"
+      },
+      {
+        id:4, type:"piece", brand:"Renault", model:"Moteur",
+        title:"Moteur complet Clio 3 1.5 DCI", price:350, km:0, year:2008,
+        city:"Noisy-le-Grand", distanceKm:22, source:"Leboncoin", postedHours:4.5,
+        description:"moteur tournait bien avant dépose",
+        img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900",
+        sourceUrl:"https://www.leboncoin.fr"
+      }
+    ];
+
+    const state = {
+      data: [],
+      filters: { type:"all", brand:"", model:"", city:"", priceMax:"", scoreMin:"" },
+      user: JSON.parse(localStorage.getItem("sfm_user") || "null")
+    };
+
+    function log(msg, type = "ok"){
+      const line = document.createElement("div");
+      line.className = "hud-line" + (type === "warn" ? " warn" : type === "err" ? " err" : "");
+      const t = new Date().toLocaleTimeString("fr-FR");
+      line.textContent = `[${t}] ${msg}`;
+      const hud = document.getElementById("hudBody");
+      hud.appendChild(line);
+      hud.scrollTop = hud.scrollHeight;
+    }
+
+    function analyze(ad){
+      let score = 90;
+      let repairCost = 0;
+      const d = (ad.description || "").toLowerCase();
+
+      if (ad.price > 4500 * 0.85) score -= 18;
+      if (ad.km > 150000) score -= 14;
+      if (ad.km > 200000) score -= 10;
+
+      if (d.includes("moteur")) { score -= 12; repairCost += 400; }
+      if (d.includes("ct refus")) { score -= 10; repairCost += 350; }
+      if (d.includes("voyant")) { score -= 6; repairCost += 150; }
+      if (d.includes("révis")) score += 2;
+      if (d.includes("ct ok")) score += 2;
+
+      score = Math.max(10, Math.min(99, score));
+
+      const fuel = Math.round((ad.distanceKm || 40) * 0.12 * 2);
+      const fixed = 500;
+      const netProfit = 4500 - (ad.price + repairCost + fixed + fuel);
+      const roi = ad.price > 0 ? (netProfit / ad.price) * 100 : 0;
+      const rotationDays = score >= 90 ? 8 : score >= 80 ? 14 : score >= 70 ? 21 : 35;
+
+      return { ...ad, score, repairCost, netProfit, roi, rotationDays };
+    }
+
+    function heatClass(hours){
+      if (hours < 2) return ["🔥 HOT", "hot"];
+      if (hours < 24) return ["⚡ FRESH", "fresh"];
+      return ["❄ COLD", "cold"];
+    }
+
+    function scoreClass(score){
+      if (score >= 85) return "green";
+      if (score >= 65) return "orange";
+      return "red";
+    }
+
+    function applyFilters(list){
+      return list.filter((item) => {
+        if (state.filters.type !== "all" && item.type !== state.filters.type) return false;
+        if (state.filters.brand && !item.brand.toLowerCase().includes(state.filters.brand.toLowerCase())) return false;
+        if (state.filters.model && !item.model.toLowerCase().includes(state.filters.model.toLowerCase())) return false;
+        if (state.filters.city && !item.city.toLowerCase().includes(state.filters.city.toLowerCase())) return false;
+        if (state.filters.priceMax && item.price > Number(state.filters.priceMax)) return false;
+        if (state.filters.scoreMin && item.score < Number(state.filters.scoreMin)) return false;
+        return true;
+      });
+    }
+
+    function updateKpis(list){
+      const total = list.length;
+      const top = list.filter((x) => x.score >= 85).length;
+      const avgRoi = total ? list.reduce((a,b) => a + b.roi, 0) / total : 0;
+      const profit = list.reduce((a,b) => a + Math.max(0, b.netProfit), 0);
+
+      document.getElementById("kpiTotal").textContent = String(total);
+      document.getElementById("kpiTop").textContent = String(top);
+      document.getElementById("kpiRoi").textContent = avgRoi.toFixed(1) + "%";
+      document.getElementById("kpiProfit").textContent = profit.toLocaleString() + "€";
+    }
+
+    function renderCards(list){
+      const root = document.getElementById("cards");
+      root.innerHTML = "";
+
+      list.forEach((item) => {
+        const [heatText, heatCss] = heatClass(item.postedHours);
+        const el = document.createElement("article");
+        el.className = "card glass";
+        el.innerHTML = `
+          <div class="thumb">
+            <img src="${item.img}" alt="">
+            <span class="badge">${item.source}</span>
+            <span class="heat ${heatCss}">${heatText}</span>
+          </div>
+          <h3>${item.title}</h3>
+          <div class="meta">${item.city} · ${item.distanceKm} km · ${item.year || "—"} · ${item.km ? item.km.toLocaleString() + " km" : "Pièce"}</div>
+          <div class="row"><strong>${item.price.toLocaleString()}€</strong><span class="score ${scoreClass(item.score)}">Score ${item.score}</span></div>
+          <div class="row"><span>ROI ${item.roi.toFixed(1)}%</span><span class="${item.netProfit > 0 ? "green" : "red"}">${item.netProfit > 0 ? "+" : ""}${item.netProfit}€</span></div>
+          <div class="card-actions">
+            <button class="mini-btn" data-view="${item.id}">Voir annonce</button>
+            <button class="mini-btn" data-msg="${item.id}">Message auto</button>
+          </div>
+        `;
+        root.appendChild(el);
+      });
+
+      root.querySelectorAll("[data-view]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = Number(e.currentTarget.getAttribute("data-view"));
+          const item = state.data.find((x) => x.id === id);
+          if (item) window.open(item.sourceUrl, "_blank");
+        });
+      });
+
+      root.querySelectorAll("[data-msg]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = Number(e.currentTarget.getAttribute("data-msg"));
+          const item = state.data.find((x) => x.id === id);
+          if (!item) return;
+
+          const message = `Bonjour, je suis intéressé par ${item.title}. Est-ce toujours disponible ?`;
+          navigator.clipboard.writeText(message).catch(() => {});
+          log(`Message généré pour "${item.title}" (copié dans le presse-papier).`);
+          alert("Message généré et copié. Tu peux le coller sur la marketplace.");
+        });
+      });
+    }
+
+    function render(){
+      const filtered = applyFilters(state.data);
+      updateKpis(filtered);
+      renderCards(filtered);
+    }
+
+    function initFilters(){
+      const map = {
+        fType: "type",
+        fBrand: "brand",
+        fModel: "model",
+        fCity: "city",
+        fPriceMax: "priceMax",
+        fScoreMin: "scoreMin"
+      };
+
+      Object.keys(map).forEach((id) => {
+        const input = document.getElementById(id);
+        input.addEventListener("input", (e) => {
+          state.filters[map[id]] = e.target.value.trim();
+          render();
+        });
+      });
+    }
+
+    function initHero(){
+      const imgs = Array.from(document.querySelectorAll(".hero img"));
+      const dotsRoot = document.getElementById("dots");
+      const heroText = document.getElementById("heroText");
+      let idx = 0;
+
+      function go(i){
+        idx = i;
+        imgs.forEach((img, n) => img.classList.toggle("active", n === idx));
+        Array.from(dotsRoot.children).forEach((dot, n) => dot.classList.toggle("active", n === idx));
+        heroText.textContent = HERO[idx].label;
+      }
+
+      HERO.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.className = "dot" + (i === 0 ? " active" : "");
+        dot.addEventListener("click", () => go(i));
+        dotsRoot.appendChild(dot);
+      });
+
+      setInterval(() => go((idx + 1) % imgs.length), 5200);
+    }
+
+    function initKpiPanels(){
+      const descriptions = {
+        annonces: ["Annonces", "Volume total d'opportunités détectées après filtrage actif."],
+        top: ["Top Score", "Nombre d'annonces avec score IA >= 85 (fort potentiel)."],
+        roi: ["ROI Moyen", "ROI = (Profit net / Prix d'achat) × 100. Rendement moyen du portefeuille."],
+        profit: ["Profit cumulé", "Somme des profits positifs. Montre la valeur brute exploitable."]
+      };
+
+      document.querySelectorAll(".kpi").forEach((kpi) => {
+        kpi.addEventListener("click", () => {
+          const key = kpi.getAttribute("data-kpi");
+          document.getElementById("kpiTitle").textContent = descriptions[key][0];
+          document.getElementById("kpiBody").textContent = descriptions[key][1] + " Action recommandée: clique sur les cartes les plus rentables.";
+          openModal("kpiModal");
+        });
+      });
+    }
+
+    function openModal(id){ document.getElementById(id).classList.add("show"); }
+    function closeModal(id){ document.getElementById(id).classList.remove("show"); }
+    window.closeModal = closeModal;
+
+    function registerEmail(){
+      const email = document.getElementById("email").value.trim();
+      if (!email) return;
+      state.user = { type:"email", email };
+      localStorage.setItem("sfm_user", JSON.stringify(state.user));
+      document.getElementById("authState").textContent = `Compte créé: ${email}`;
+      document.getElementById("loginBtn").textContent = "Connecté";
+      log(`Compte email créé: ${email}`);
+    }
+
+    function loginEmail(){
+      const email = document.getElementById("email").value.trim();
+      if (!email) return;
+      state.user = { type:"email", email };
+      localStorage.setItem("sfm_user", JSON.stringify(state.user));
+      document.getElementById("authState").textContent = `Connecté: ${email}`;
+      document.getElementById("loginBtn").textContent = "Connecté";
+      log(`Connexion email: ${email}`);
+    }
+
+    function loginGoogleMock(){
+      state.user = { type:"google", email:"google-user@demo.local" };
+      localStorage.setItem("sfm_user", JSON.stringify(state.user));
+      document.getElementById("authState").textContent = "Connecté avec Google (mode démo)";
+      document.getElementById("loginBtn").textContent = "Connecté";
+      log("Connexion Google démo.");
+    }
+
+    window.registerEmail = registerEmail;
+    window.loginEmail = loginEmail;
+    window.loginGoogleMock = loginGoogleMock;
+
+    function syncData(){
+      log("Connexion marketplaces...");
+      setTimeout(() => log("Leboncoin connecté"), 350);
+      setTimeout(() => log("Facebook Marketplace connecté"), 650);
+      setTimeout(() => log("Scoring IA en cours..."), 1000);
+
+      setTimeout(() => {
+        const newAd = {
+          id: Date.now(),
+          type:"voiture",
+          brand:"Toyota",
+          model:"Yaris",
+          title:"Toyota Yaris 1.0 VVT-i",
+          price:3200,
+          km:112000,
+          year:2012,
+          city:"Noisy-le-Grand",
+          distanceKm:21,
+          source:"Leboncoin",
+          postedHours:0.7,
+          description:"révisée, ct ok, carnet entretien complet",
+          img:"https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?w=900",
+          sourceUrl:"https://www.leboncoin.fr"
+        };
+        state.data.unshift(analyze(newAd));
+        render();
+        log("Nouvelle annonce ajoutée + scorée.");
+      }, 1400);
+    }
+
+    function runAutopilot(){
+      log("Autopilote IA démarré.");
+      const best = [...state.data].sort((a,b) => (b.netProfit / b.rotationDays) - (a.netProfit / a.rotationDays))[0];
+      if (best) {
+        const offer = Math.round(best.price * 0.88);
+        log(`Reco: Négocier "${best.title}" autour de ${offer}€`, "warn");
+      }
+    }
+
+    function initButtons(){
+      document.getElementById("loginBtn").addEventListener("click", () => openModal("loginModal"));
+      document.getElementById("syncBtn").addEventListener("click", syncData);
+      document.getElementById("autoBtn").addEventListener("click", runAutopilot);
+    }
+
+    function bootstrap(){
+      state.data = RAW_DATA.map(analyze);
+      if (state.user) document.getElementById("loginBtn").textContent = "Connecté";
+
+      initHero();
+      initFilters();
+      initKpiPanels();
+      initButtons();
+      render();
+
+      log("SK FLUX MASTER initialisé.");
+      log(`${state.data.length} annonces chargées.`);
+    }
+
+    bootstrap();
+  </script>
 </body>
 </html>
